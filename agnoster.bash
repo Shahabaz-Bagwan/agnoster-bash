@@ -198,8 +198,16 @@ prompt_segment() {
 prompt_end() {
     if [[ -n $CURRENT_BG ]]; then
         declare -a codes=($(text_effect reset) $(fg_color $CURRENT_BG))
-        bat=`bash  $HOME/.local/bin/battery` 
-        mem=`bash $HOME/.local/bin/memory`
+        bat=`for battery in /sys/class/power_supply/BAT?
+              do
+                capacity=$(cat "$battery"/capacity 2>/dev/null) || break
+                status=$(sed "s/[Dd]ischarging/:/;s/[Nn]ot charging/:/;s/[Cc]harging/:/;s/[Uu]nknown/♻️/;s/[Ff]ull/:/" "$battery"/status)
+                 [ "$capacity" -le 25 ] && [ "$status" = ":" ] && warn=""
+                printf "%s%s%s%% " "$status" "$warn" "$capacity"
+                unset warn
+                done | sed 's/ *$//'` 
+        
+        mem=`free --mega | awk 'NF>6{printf (":%2.2fGB/%2.2fGB\n", ( $3 / 1024), ($2 / 1024))}'`
         PR="$PR $(ansi codes[@])$SEGMENT_SEPARATOR \d \t $mem $bat \n$SEGMENT_SEPARATOR "
     fi
     declare -a reset=($(text_effect reset))
