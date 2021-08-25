@@ -198,7 +198,9 @@ prompt_segment() {
 prompt_end() {
     if [[ -n $CURRENT_BG ]]; then
         declare -a codes=($(text_effect reset) $(fg_color $CURRENT_BG))
-        PR="$PR $(ansi codes[@])$SEGMENT_SEPARATOR"
+        bat=`bash  $HOME/.local/bin/battery` 
+        mem=`bash $HOME/.local/bin/memory`
+        PR="$PR $(ansi codes[@])$SEGMENT_SEPARATOR \d \t $mem $bat \n$SEGMENT_SEPARATOR "
     fi
     declare -a reset=($(text_effect reset))
     PR="$PR $(ansi reset[@])"
