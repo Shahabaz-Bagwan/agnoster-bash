@@ -1,5 +1,7 @@
 # agnoster-bash
-Agnoster Theme for Bash
+Agnoster Theme for Bash with multiline support
+
+Forked from https://github.com/speedenator/agnoster-bash
 
 agnoster's Theme - https://gist.github.com/3712874
 A Powerline-inspired theme for BASH
@@ -34,7 +36,7 @@ I recommend the following:
 ```
 cd $HOME
 mkdir -p .bash/themes/agnoster-bash
-git clone https://github.com/speedenator/agnoster-bash.git .bash/themes/agnoster-bash
+git clone https://github.com/Shahabaz-Bagwan/agnoster-bash.git .bash/themes/agnoster-bash
 ```
 
 then add the following to your .bashrc:
