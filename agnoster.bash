@@ -208,7 +208,7 @@ prompt_end() {
                 done | sed 's/ *$//'` 
         
         mem=`free --mega | awk 'NF>6{printf (":%2.2fGB/%2.2fGB\n", ( $3 / 1024), ($2 / 1024))}'`
-        PR="\n \[\033[0;34m\]╭─\[\033[0;31m\]$RIGHT_SEPARATOR$PR $(ansi codes[@])$SEGMENT_SEPARATOR \d \t $mem $bat  \n \[\033[0;34m\]╰$LEFT_SUBSEG \[\033[1;36m\]\$\[\033[0m\]"
+        PR="\n \[\033[0;34m\]╭─\[\033[0;34m\]$RIGHT_SEPARATOR$PR $(ansi codes[@])$SEGMENT_SEPARATOR \d \t $mem $bat  \n \[\033[0;34m\]╰─$LEFT_SUBSEG \[\033[1;36m\]\$\[\033[0m\]"
     fi
     declare -a reset=($(text_effect reset))
     PR="$PR $(ansi reset[@])"
