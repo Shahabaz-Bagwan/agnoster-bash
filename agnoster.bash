@@ -198,17 +198,8 @@ prompt_segment() {
 prompt_end() {
     if [[ -n $CURRENT_BG ]]; then
         declare -a codes=($(text_effect reset) $(fg_color $CURRENT_BG))
-        bat=`for battery in /sys/class/power_supply/BAT?
-              do
-                capacity=$(cat "$battery"/capacity 2>/dev/null) || break
-                status=$(sed "s/[Dd]ischarging/:/;s/[Nn]ot charging/:/;s/[Cc]harging/:/;s/[Uu]nknown/♻️/;s/[Ff]ull/:/" "$battery"/status)
-                 [ "$capacity" -le 25 ] && [ "$status" = ":" ] && warn=""
-                printf "%s%s%s%% " "$status" "$warn" "$capacity"
-                unset warn
-                done | sed 's/ *$//'` 
-        
         mem=`free --mega | awk 'NF>6{printf (":%2.2fGB/%2.2fGB\n", ( $3 / 1024), ($2 / 1024))}'`
-        PR="\[\033[0;34m\]╭─\[\033[0;34m\]$RIGHT_SEPARATOR$PR $(ansi codes[@])$SEGMENT_SEPARATOR \d \t $mem $bat \n\[\033[0;34m\]╰─$LEFT_SUBSEG \[\033[1;36m\]\$\[\033[0m\]"
+        PR="\[\033[0;34m\]╭─\[\033[0;34m\]$RIGHT_SEPARATOR$PR $(ansi codes[@])$SEGMENT_SEPARATOR \d \t $mem \n\[\033[0;34m\]╰─$LEFT_SUBSEG \[\033[1;36m\]\$\[\033[0m\]"
     fi
     declare -a reset=($(text_effect reset))
     PR="$PR $(ansi reset[@])"
